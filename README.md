@@ -25,4 +25,4 @@ In this version you need just to run the code and put path with file and extensi
 Example: C:\Users\[YOURUSER]\pyOniExtractor\sample\sample.oni
 
 # Acknowledgements
-This works is from https://github.com/rokopi-byte, i just update it and make more easy to use
+This works is from [rolopi-byte](https://github.com/rokopi-byte), i just update it and make more easy to use
