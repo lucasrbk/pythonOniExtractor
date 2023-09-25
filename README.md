@@ -21,8 +21,9 @@ OBS: if opencv doesn't works use "opencv-contrib-python" in command line to inst
 
 
 # How to Use 
-In this version you need just to run the code and put path with file and extension.
-Example: C:\Users\[YOURUSER]\pyOniExtractor\sample\sample.oni
+In this version you need just to run the code and put path where the files are.
+Example: C:\Users\[YOURUSER]\pyOniExtractor\sample\
+output: C:\Users\[YOURUSER]\pyOniExtractor\sample\output\1.png
 
 # Acknowledgements
 This works is from [rolopi-byte](https://github.com/rokopi-byte), i just update it and make more easy to use
