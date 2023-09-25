@@ -5,15 +5,25 @@ import cv2
 from openni import openni2
 import argparse
 import numpy as np
+from fnmatch import fnmatch
+import shutil
 
 def openDevice(video_path):
+    print("Opening device")
     try:
         if sys.platform == "win32":
             libpath = "lib/Windows"
         else:
             libpath = "lib/Linux"
         openni2.initialize(libpath)
-        dev = openni2.Device.open_file(video_path)
+        #dev = openni2.Device.open_file(video_path)
+        get_file = get_filenames(video_path)
+        extension = ".oni"
+        get_file = video_path + "\\" + get_file[0]
+        print(get_file)
+        args = get_file
+        dev = openni2.Device.open_file(args.encode('utf-8'))
+        print("pbs")
         pbs = openni2.PlaybackSupport(dev)
 
         pbs.set_repeat_enabled(True)
@@ -106,6 +116,9 @@ def main():
     try:
         pathTest =  input("Path to video (with extension!): ")
         print("Initializing OpenNI2")
+
+        distribute_files(pathTest)
+        """ # core code
         dev, pbs = openDevice(pathTest.encode('utf-8'))
         print("Device Opened")
         if dev.has_sensor(openni2.SENSOR_COLOR):
@@ -115,9 +128,57 @@ def main():
             print("Depth Stream found")
             processDepth(dev, pbs, interval, dst)
         print("Done!")
+        """
     except Exception as ex:
         print("bad: ", ex)
     openni2.unload()
 
+def create_folders(root_dir):
+    pattern = '*.oni'
+    files = []
+    for file in os.listdir(root_dir):
+        if fnmatch(file, pattern):
+            files.append(file)
+            try:
+                output_folder = os.path.join(root_dir, os.path.splitext(file)[0])
+                os.makedirs(output_folder)
+            except:
+                print("Folder already exists")
+    return files
+    
+
+def get_filenames(root_dir):
+    pattern = '*.oni'
+    files = []
+    for file in os.listdir(root_dir):
+        if fnmatch(file, pattern):
+            files.append(file)    
+    return files
+
+def distribute_files(root_dir):
+    files = get_filenames(root_dir)
+    file_extension = '.oni'
+    print(root_dir)
+    for file in files:
+        folder = os.path.join(root_dir, file)
+        if os.path.isfile(folder):
+            file_name, file_extension = os.path.splitext(file)
+            folder_name = os.path.join(root_dir, file_name)
+            if not os.path.exists(folder_name):
+                os.makedirs(folder_name)
+            shutil.move(folder, folder_name)
+            print("File moved to folder: ", folder_name)
+            core(folder_name)
+            
+def core(folder_name):
+    dev, pbs = openDevice(folder_name)
+    print("Device Opened")
+    if dev.has_sensor(openni2.SENSOR_COLOR):
+        print("Color Stream found")
+        processColor(dev, pbs)
+    if dev.has_sensor(openni2.SENSOR_DEPTH):
+        print("Depth Stream found")
+        processDepth(dev, pbs,1,folder_name)
+    print("Done!")
 if __name__ == '__main__':
     main()
