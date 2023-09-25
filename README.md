@@ -12,8 +12,8 @@ Name of the saved images contain the frame ID, which in case of synchronization 
 # Requirements:
 Python 3 32bit (or above), with the following packages (you can install them using pip):
 
-openni
-numpy
+openni,
+numpy,
 opencv 3 (opencv-python) 
 example: pip install opencv-python
 
