@@ -64,8 +64,14 @@ def processDepth(dev,pbs,interval,dst):
                 depth_uint8[depth_uint8 > 255] = 255 # set max value to 255
                 depth_uint8[depth_uint8 < 0] = 0 # set min value to 0
                 depth_uint8 = depth_uint8.astype('uint8') # set type to uint8
-                cv2.imwrite(dst + "/" + str(frame_depth.frameIndex) + "_16bit.png", depth_array)# save 16 bit image
-                cv2.imwrite(dst + "/" + str(frame_depth.frameIndex) + "_8bit.png", depth_uint8)# save 8 bit image
+                dst8bit = dst + "/8bit" # create folder for 8 bit images
+                if not os.path.exists(dst8bit):
+                    os.mkdir(dst8bit)
+                dst16bit = dst + "/16bit" # create folder for 16 bit images
+                if not os.path.exists(dst16bit):
+                    os.mkdir(dst16bit)
+                cv2.imwrite(dst16bit + "/" + str(frame_depth.frameIndex)  + "_16bit.png", depth_array)# save 16 bit image
+                cv2.imwrite(dst8bit + "/" + str(frame_depth.frameIndex)  + "_8bit.png", depth_uint8)# save 8 bit image
                 tfile.write(str(frame_depth.frameIndex) + ';' + str(frame_depth.timestamp) + '\n')#  write timestamps to txt file
         depth_stream.close() # close stream
         print("All depth frames extracted")
