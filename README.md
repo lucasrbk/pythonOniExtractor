@@ -26,4 +26,4 @@ Example: C:\Users\[YOURUSER]\pyOniExtractor\sample\
 output: C:\Users\[YOURUSER]\pyOniExtractor\sample\output\1.png
 
 # Acknowledgements
-This works is from [rolopi-byte](https://github.com/rokopi-byte), i just update it and make more easy to use
+This works is from [rolopi-byte](https://github.com/rokopi-byte), i just update it add and update the libs need to run and make more easy to use
